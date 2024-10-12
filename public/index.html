@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="dist/style.css">
 </head>
 <body>
+    <div id="loader-container" class="loader-background">
+        <div class="custom-loader"></div>
+    </div>
+
     <div id="content">
         <h1>Jogos do Milhão</h1>
         <form>
@@ -40,43 +44,10 @@
             </div>
 
             <button id="searchGames">Ver Jogos</button>
-            <button type="reset">Resetar</button>
         </form>
     </div>
-    <div id="gameResults">
-        <table class="typeGame">
-            <thead>
-                <tr>
-                    <th>Tipo de Jogo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><!-- Tipo de Jogo --></td>
-                </tr>
-            </tbody>
-        </table>
 
-        <table class="gameResults">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Concurso</th>
-                    <th>Resultado</th>
-                </tr>
-            </thead>
-            <tbody><!-- Data, Concurso, Resultado --></tbody>
-        </table>
+    <div id="gameResults"></div>
 
-        <table class="frequenciesNumber">
-            <thead>
-                <tr>
-                    <th>Número</th>
-                    <th>Frequência</th>
-                </tr>
-            </thead>
-            <tbody><!-- Numero, Frequencia --></tbody>
-        </table>
-    </div>
 </body>
 </html>
