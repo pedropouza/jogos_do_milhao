@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos Megasena</title>
+    <script src="dist/index.js" defer></script>
+    <link rel="stylesheet" href="dist/style.css">
+</head>
+<body>
+    <div id="content">
+        <h1>Jogos do Milhão</h1>
+        <form>
+            <div>
+                <label for="gameType">Jogo</label>
+                <select name="gameType" id="gameType">
+                    <option selected disabled></option>
+                    <optgroup label="Brasil">
+                        <option value="megasena">Megasena</option>
+                        <option value="quina">Quina</option>
+                        <option value="lotofacil">Lotofacil</option>
+                        <option value="lotomania">Lotomania</option>
+                        <option value="duplasena">Duplasena</option>
+                        <option value="timemania">Timemania</option>
+                        <option value="diadesorte">Dia de sorte</option>
+                        <option value="federal">Federal</option>
+                        <option value="loteca">Loteca</option>
+                        <option value="supersete">Supersete</option>
+                        <option value="maismilionaria">Mais Milionaria</option>
+                    </optgroup>
+                    <optgroup label="Europa">
+                        <option value="euromilhao">Euro Milhão</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div>
+                <label for="range">Alcance</label>
+                <input type="number" name="range" id="range" class="no-arrows">
+            </div>
+
+            <button id="searchGames">Ver Jogos</button>
+            <button type="reset">Resetar</button>
+        </form>
+    </div>
+    <div id="gameResults">
+        <table class="typeGame">
+            <thead>
+                <tr>
+                    <th>Tipo de Jogo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><!-- Tipo de Jogo --></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="gameResults">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Concurso</th>
+                    <th>Resultado</th>
+                </tr>
+            </thead>
+            <tbody><!-- Data, Concurso, Resultado --></tbody>
+        </table>
+
+        <table class="frequenciesNumber">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Frequência</th>
+                </tr>
+            </thead>
+            <tbody><!-- Numero, Frequencia --></tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #333;
+    font-size: 1.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: aliceblue;
+    padding: 20px;
+    height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#content {
+    margin-bottom: 40px;
+}
+
+#content h1 {
+    margin-bottom: 40px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+form div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form input, select {
+    padding: 10px;
+    width: 210px;
+    font-size: 0.9rem;
+}
+
+/* Desativar setas do input, para navegadores baseados em WebKit (Chrome, Safari) */
+.no-arrows::-webkit-inner-spin-button,
+.no-arrows::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+form button {
+    padding: 15px;
+    font-size: 1rem;
+}
+
+#gameResults {
+    display: none;
+    flex-direction: column;
+    gap: 50px;
+}
+
+#gameResults table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#gameResults th, #gameResults td {
+    border: 1px solid #ddd;
+}
+
+#gameResults td {
+    padding: 12px 35px;
+    text-align: center;
+    transition: background-color 0.15s;
+}
+
+#gameResults th {
+    padding: 15px 20px;
+}
+
+.typeGame th {
+    background-color: #134345;
+}
+.typeGame td {
+    background-color: #13434536;
+}
+
+.gameResults th {
+    background-color: #13452d;
+}
+.gameResults td {
+    background-color: #13452d38;
+}
+
+.frequenciesNumber th {
+    background-color: #473107;
+}
+.frequenciesNumber td {
+    background-color: #4731072c;
+}
+
+#gameResults tr:hover td {
+    background-color: #1e1e1e;
+}

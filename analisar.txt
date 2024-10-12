@@ -1,0 +1,122 @@
+type TypeGame = "megasena" | "quina" | "lotofacil" | "lotomania" | "duplasena" | "timemania" | "diadesorte" | "federal" | "loteca" | "supersete" | "maismilionaria"
+
+type NumberGame = "ultimo" | number
+
+interface Result {
+    dezenasSorteadasOrdemSorteio: string[]
+    listaDezenas: string[]
+    acumulado: boolean
+    numero: number
+    tipoJogo: string
+    dataApuracao: string
+}
+
+// Lista com os jogos que foram procurados.
+const gamesList = []
+
+
+// Procura pelo jogo, salva na lista e retorna os dados formatados.
+async function fetchGames(game:TypeGame, numberGame: NumberGame) {
+    const response = await fetch(`https://api.guidi.dev.br/loteria/${game}/${numberGame}`)
+    const gameResult:Result = await response.json()
+    
+    gamesList.push(gameResult.listaDezenas)
+    
+    return `(${gameResult.dataApuracao}) ${gameResult.tipoJogo} ${gameResult.numero} [ ${gameResult.listaDezenas.join(" - ")} ]`
+}
+
+
+// Mostra os jogos, ordenados da distancia escolhida até o ultimo.
+async function showGames(game:TypeGame, range:number) {
+    const response = await fetch(`https://api.guidi.dev.br/loteria/${game}/ultimo`)
+    const gameResult:Result = await response.json()
+    
+    const lastNumber = gameResult.numero
+    const rangeFor = lastNumber - range
+    
+    for (let i = lastNumber, num = 0; i > rangeFor; i--) {
+        console.log(`${num + 1}º - ${await fetchGames(game, i)}`);
+        num++
+    }
+}
+
+
+// Mostra as informações gerais do jogo em específico.
+async function showGameInfo(game:TypeGame, numberGame: NumberGame) {
+    const response = await fetch(`https://api.guidi.dev.br/loteria/${game}/${numberGame}`)
+    const gameResult:Result = await response.json()
+    
+    console.log(gameResult); 
+}
+
+
+// Conta a frequencia dos numeros e os ordena do maior para o menor.
+function countFreq(array: number[][]): { number: number; frequency: number }[] {
+    const frequencies: Record<number, number> = {};
+    
+    // Conta a frequência de cada número
+    array.forEach(innerArray => {
+        innerArray.forEach(num => {
+            frequencies[num] = (frequencies[num] || 0) + 1;
+        });
+    });
+    
+    // Converte o objeto de frequências em um array de pares [número, frequência]
+    const listFrequencies: [number, number][] = Object.entries(frequencies).map(([num, freq]) => [Number(num), freq]);
+    
+    // Ordena os números pela frequência, do mais frequente para o menos frequente
+    listFrequencies.sort((a, b) => b[1] - a[1]);
+    
+    // Formata o resultado
+    const resultado = listFrequencies.map(([num, freq]) => ({ number: num, frequency: freq }));
+    
+    return resultado;
+}
+
+
+// Executa o programa, mostrando os ultimos jogos e contando a frequencia dos numeros.
+async function main(game:TypeGame, range:number) {
+    await showGames(game, range)
+    const frequenciasOrdenadas = countFreq(gamesList);
+    console.log(`\nNos últimos ${range} jogos, os números com maior frequência são:\n`);
+    frequenciasOrdenadas.forEach((obj, n) => {
+        console.log(`${n+1}º - Número: ${obj.number} (${obj.frequency}x)`);
+    })
+}
+
+
+
+main("megasena", 1)
+
+
+
+
+const lista = [
+    [7, 9, 11, 16, 45],
+    [12, 14, 34, 41, 47],
+    [6, 29, 46, 47, 48],
+    [10, 15, 17, 31, 42],
+    [20, 30, 32, 41, 44],
+    [16, 25, 29, 34, 37],
+    [18, 20, 21, 36, 49],
+    [7, 20, 21, 27, 38],
+    [8, 22, 29, 41, 42],
+    [4, 8, 16, 17, 20],
+    [7, 14, 19, 34, 40],
+]
+
+const lista2 = [
+    [2, 5],
+    [4, 5],
+    [2, 9],
+    [4, 12],
+    [1, 10],
+    [3, 7],
+    [3, 5],
+    [5, 12],
+    [9, 11],
+    [1, 6],
+    [6, 8],
+]
+
+console.log(countFreq(lista2));
