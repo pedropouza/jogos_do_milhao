@@ -37,7 +37,7 @@ async function fetchGamesBR(game:TypeGame, numberGame: NumberGame) {
 
     tdDate.textContent = gameResult.dataApuracao
     tdNum.textContent = gameResult.numero.toString()
-    tdRes.textContent = gameResult.listaDezenas.join(" - ")
+    tdRes.textContent = gameResult.listaDezenas.join(" • ")
 
     tr.append(tdDate, tdNum, tdRes)
     const gameResultsHTML = document.querySelector('#gameResults .gameResults > tbody')
@@ -96,8 +96,8 @@ async function showGamesEU(range:number) {
 
         
         tdDate.textContent = formatDate(gameResult[i].date)
-        tdStars.textContent = gameResult[i].stars.join(" - ")
-        tdRes.textContent = gameResult[i].numbers.join(" - ")
+        tdStars.textContent = gameResult[i].stars.join(" • ")
+        tdRes.textContent = gameResult[i].numbers.join(" • ")
         
         tr.append(tdDate, tdStars, tdRes)
         const gameResultsHTML = document.querySelector('#gameResults .gameResults > tbody')
@@ -255,10 +255,10 @@ document.querySelector('form').addEventListener('submit', (ev) => {
     gamesList = []
     
     const select = document.getElementById('gameType') as HTMLSelectElement
-    const selectValue = select.value
+    let selectValue = select.value
 
     const range = document.getElementById('range') as HTMLInputElement
-    const rangeValue = Number(range.value)
+    let rangeValue = Number(range.value)
     
     
     if (selectValue !== '' && rangeValue > 0) {
@@ -272,4 +272,7 @@ document.querySelector('form').addEventListener('submit', (ev) => {
     } else {
         alert('Escolha um tipo de jogo e seu alcance sendo maior que 0.')
     }
+
+    const form = ev.target as HTMLFormElement
+    form.reset()
 })

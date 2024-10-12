@@ -59,6 +59,7 @@ form button {
     display: flex;
     flex-direction: column;
     gap: 50px;
+    margin: 10px;
 }
 
 #gameResults table {
@@ -67,17 +68,20 @@ form button {
 }
 
 #gameResults th, #gameResults td {
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
 }
 
 #gameResults td {
-    padding: 12px 35px;
+    padding: 20px 40px;
     text-align: center;
     transition: background-color 0.15s;
+    letter-spacing: 1px;
 }
 
 #gameResults th {
     padding: 15px 20px;
+    position: sticky;
+    top: -1px;
 }
 
 .typeGame th {
@@ -114,8 +118,8 @@ form button {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
