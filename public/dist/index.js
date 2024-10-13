@@ -1,5 +1,6 @@
 // Lista com os jogos que foram procurados.
 let gamesList = [];
+let starList = [];
 // Procura pelo jogo, salva na lista e retorna os dados formatados.
 async function fetchGamesBR(game, numberGame) {
     const response = await fetch(`https://api.guidi.dev.br/loteria/${game}/${numberGame}`);
@@ -60,8 +61,10 @@ async function showGamesEU(range) {
         const gameResultsHTML = document.querySelector('#gameResults .gameResults > tbody');
         gameResultsHTML.append(tr);
         gamesList.push(gameResult[i].numbers);
+        starList.push(gameResult[i].stars);
     }
     const orderedFrequencies = countFreq(gamesList);
+    const orderedStarFrequencies = countFreq(starList);
     orderedFrequencies.forEach((obj) => {
         const tr = document.createElement('tr');
         const tdNum = document.createElement('td');
@@ -71,6 +74,16 @@ async function showGamesEU(range) {
         tr.append(tdNum, tdFreq);
         const frequenciesNumberHTML = document.querySelector('#gameResults .frequenciesNumber > tbody');
         frequenciesNumberHTML.append(tr);
+    });
+    orderedStarFrequencies.forEach((obj) => {
+        const tr = document.createElement('tr');
+        const tdNum = document.createElement('td');
+        const tdFreq = document.createElement('td');
+        tdNum.textContent = obj.number.toString();
+        tdFreq.textContent = obj.frequency.toString();
+        tr.append(tdNum, tdFreq);
+        const frequenciesStarNumberHTML = document.querySelector('#gameResults .frequenciesStarNumber > tbody');
+        frequenciesStarNumberHTML.append(tr);
     });
     hideLoader();
 }
@@ -121,6 +134,7 @@ function renderResultsStructure(typeGame) {
     tableTypeGame.append(theadTypeGame, tbodyTypeGame);
     // Tabela do Resultado
     const tableGameResults = document.createElement('table');
+    tableGameResults.id = 'gameResultsTable';
     tableGameResults.classList.add('gameResults');
     const tbodyGameResults = document.createElement('tbody');
     if (typeGame === 'euromilhao') {
@@ -133,11 +147,55 @@ function renderResultsStructure(typeGame) {
     }
     // Tabela da Frequencia dos Numeros
     const tableFrequenciesNumber = document.createElement('table');
+    tableFrequenciesNumber.id = 'frequenciesNumber';
     tableFrequenciesNumber.classList.add('frequenciesNumber');
     const theadFreq = renderThead('Número', 'Frequência');
     const tbodyFreq = document.createElement('tbody');
     tableFrequenciesNumber.append(theadFreq, tbodyFreq);
     gameResultsDiv.append(tableTypeGame, tableGameResults, tableFrequenciesNumber);
+    if (typeGame === 'euromilhao') {
+        const tableFrequenciesStar = document.createElement('table');
+        tableFrequenciesStar.id = 'frequenciesStarNumber';
+        tableFrequenciesStar.classList.add('frequenciesStarNumber');
+        const theadStar = renderThead('Nº Estrela', 'Frequência');
+        const tbodyStar = document.createElement('tbody');
+        tableFrequenciesStar.append(theadStar, tbodyStar);
+        gameResultsDiv.append(tableFrequenciesStar);
+    }
+}
+// Renderiza os botões que caminham até o resultado ou frequencia dos numeros
+function renderButtonsToGo(europe) {
+    clearAll('buttonsGoTo');
+    const buttonsDiv = document.getElementById('buttonsGoTo');
+    const btnGoToResults = document.createElement('button');
+    btnGoToResults.id = 'GoToResults';
+    btnGoToResults.textContent = "Resultado";
+    btnGoToResults.onclick = () => {
+        window.location.href = '#gameResultsTable';
+    };
+    const btnGoToFrequencies = document.createElement('button');
+    btnGoToFrequencies.id = 'GoToFrequencies';
+    btnGoToFrequencies.textContent = 'Frequência';
+    btnGoToFrequencies.onclick = () => {
+        window.location.href = '#frequenciesNumber';
+    };
+    buttonsDiv.append(btnGoToResults, btnGoToFrequencies);
+    if (europe) {
+        const btnGoToStarFrequencies = document.createElement('button');
+        btnGoToStarFrequencies.id = 'GoToStarFrequencies';
+        btnGoToStarFrequencies.textContent = 'Frequência de Estrelas';
+        btnGoToStarFrequencies.onclick = () => {
+            window.location.href = '#frequenciesStarNumber';
+        };
+        buttonsDiv.append(btnGoToStarFrequencies);
+    }
+    const backToTop = document.createElement('button');
+    backToTop.id = 'GoToTop';
+    backToTop.innerHTML = "&uarr;";
+    backToTop.onclick = () => {
+        window.location.href = '#content';
+    };
+    buttonsDiv.append(backToTop);
 }
 // Renderiza o Header das tabelas
 function renderThead(...titleHead) {
@@ -152,10 +210,10 @@ function renderThead(...titleHead) {
     return THead;
 }
 // Limpa os resultados ao fazer uma nova busca.
-function clearAll() {
-    const gameResults = document.getElementById('gameResults');
-    while (gameResults.firstChild) {
-        gameResults.removeChild(gameResults.firstChild);
+function clearAll(id) {
+    const fatherDiv = document.getElementById(id);
+    while (fatherDiv.firstChild) {
+        fatherDiv.removeChild(fatherDiv.firstChild);
     }
 }
 // Mostra o Loader
@@ -178,8 +236,10 @@ function hideLoader() {
 }
 document.querySelector('form').addEventListener('submit', (ev) => {
     ev.preventDefault();
-    clearAll();
+    clearAll('gameResults');
+    clearAll('buttonsGoTo');
     gamesList = [];
+    starList = [];
     const select = document.getElementById('gameType');
     let selectValue = select.value;
     const range = document.getElementById('range');
@@ -187,9 +247,11 @@ document.querySelector('form').addEventListener('submit', (ev) => {
     if (selectValue !== '' && rangeValue > 0) {
         renderResultsStructure(selectValue);
         if (selectValue === 'euromilhao') {
+            renderButtonsToGo(true);
             showGamesEU(rangeValue);
         }
         else {
+            renderButtonsToGo();
             showGamesBR(selectValue, rangeValue);
         }
     }
