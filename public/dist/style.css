@@ -109,6 +109,7 @@ form button {
   border-radius: 50%;
   font-size: 1.2rem;
   background-color: #000000b3;
+  z-index: 2;
 }
 
 #gameResults {
@@ -187,7 +188,7 @@ form button {
     justify-content: center;
     align-items: center;
     background-color: #070704df;
-    z-index: 9999;
+    z-index: 1;
   }
   
   /* Estilos do loader */
